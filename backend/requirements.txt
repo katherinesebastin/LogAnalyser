@@ -1,0 +1,11 @@
+# Core dependencies
+flask==3.0.0
+flask-cors==4.0.0
+python-dateutil==2.8.2
+
+# Development/testing (optional)
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# Optional but recommended
+gunicorn==21.2.0
