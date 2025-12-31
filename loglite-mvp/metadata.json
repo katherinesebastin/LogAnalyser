@@ -1,0 +1,5 @@
+{
+  "name": "LogLite MVP",
+  "description": "A comprehensive, educational log analysis system for macOS, network, and server logs with security insights and visualizations.",
+  "requestFramePermissions": []
+}
