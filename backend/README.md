@@ -1,38 +1,35 @@
-# macOS Log Analyzer - Backend
+# Backend
 
 A Python backend for analyzing macOS system logs using the Unified Logging System. This tool provides a RESTful API to query various log types from macOS 10.12+ (Sierra and later).
 
-## 🎯 Project Overview
+## Project Overview
 
-This is the **backend** component of a macOS Log Analyzer. It provides a Flask-based REST API that queries macOS Unified Logging System and returns structured log data in JSON format. The frontend (web interface) is handled by a separate team member.
+This is the backend component of a macOS Log Analyzer. It provides a Flask-based REST API that queries macOS Unified Logging System and returns structured log data in JSON format. The frontend (web interface) is handled by a separate team member.
 
 ### Architecture
 
-- **Backend**: Python/Flask (this repository) - REST API
-- **Frontend**: Web interface (separate repository) - User interface
+- **Backend**: Python/Flask - REST API
+- **Frontend**: Web interface - User interface
 
-## ⚠️ System Requirements
+## System Requirements
 
-### **macOS 10.12+ (Sierra or later) is REQUIRED**
+**macOS 10.12+ (Sierra or later) is required**
+This tool only supports **macOS 10.12+**. It **will not work** on older macOS versions.
 
-This tool **only supports macOS 10.12+**. It will **NOT work** on older macOS versions.
+### Why macOS 10.12+ is required
 
-### Why macOS 10.12+ is Required
-
-macOS 10.12 (Sierra) introduced the **Unified Logging System**, which replaced legacy text-based log files:
-
+macOS 10.12 (Sierra) introduced the Unified Logging System, which replaced legacy text-based log files:
 - **Unified Logging System** (macOS 10.12+):
   - Stores logs in a binary format for efficiency
   - Provides structured querying via predicates
   - Uses the `log` command-line tool
   - Offers better performance and filtering
-  - This tool uses this system ✅
-
+  - This tool uses this system
 - **Legacy Logging** (macOS 10.11 and earlier):
   - Text-based log files in `/var/log/*`
   - No structured querying
   - Different format entirely
-  - This tool does NOT support this ❌
+  - This tool does not support this 
 
 ### Additional Requirements
 
@@ -40,7 +37,7 @@ macOS 10.12 (Sierra) introduced the **Unified Logging System**, which replaced l
 - **Administrative access** may be required for some log types
 - **Internet connection** for installing dependencies (first time only)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repository
 
@@ -116,7 +113,7 @@ curl http://127.0.0.1:5000/api/health
 curl "http://127.0.0.1:5000/api/logs/system?limit=5"
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 LogAnalyzer/
@@ -144,7 +141,7 @@ LogAnalyzer/
 └── README.md
 ```
 
-## 🌐 API Documentation
+## API Documentation
 
 All endpoints return JSON and support CORS for frontend integration.
 
@@ -192,9 +189,7 @@ All endpoints return JSON with this structure:
 }
 ```
 
----
-
-## 📡 API Endpoints
+## API Endpoints
 
 ### 1. Health Check
 
@@ -219,8 +214,6 @@ GET /api/health
 ```bash
 curl http://127.0.0.1:5000/api/health
 ```
-
----
 
 ### 2. System Logs
 
@@ -298,8 +291,6 @@ GET /api/logs/hardware
 curl "http://127.0.0.1:5000/api/logs/hardware?limit=5"
 ```
 
----
-
 ### 6. Power Management Logs
 
 ```http
@@ -317,8 +308,6 @@ GET /api/logs/power
 curl "http://127.0.0.1:5000/api/logs/power?time_period=24h&limit=10"
 ```
 
----
-
 ### 7. Scheduler Logs
 
 ```http
@@ -335,8 +324,6 @@ GET /api/logs/scheduler
 ```bash
 curl "http://127.0.0.1:5000/api/logs/scheduler?time_period=24h&limit=10"
 ```
-
----
 
 ### 8. Boot Logs
 
@@ -356,8 +343,6 @@ GET /api/logs/boot
 ```bash
 curl "http://127.0.0.1:5000/api/logs/boot?time_period=1h&limit=10"
 ```
-
----
 
 ### 9. Crash Logs
 
@@ -400,8 +385,6 @@ GET /api/logs/crashes
 curl "http://127.0.0.1:5000/api/logs/crashes?limit=10"
 ```
 
----
-
 ### 10. Package Logs
 
 ```http
@@ -440,9 +423,7 @@ GET /api/logs/packages
 curl "http://127.0.0.1:5000/api/logs/packages?limit=20"
 ```
 
----
-
-## 📝 Log Entry Format
+## Log Entry Format
 
 ### Standard Log Entry (Unified Logging System)
 
@@ -473,7 +454,7 @@ All log entries from Unified Logging System endpoints follow this structure:
 
 ---
 
-## 💻 Frontend Integration Guide
+## Frontend Integration Guide
 
 ### CORS Support
 
@@ -656,7 +637,6 @@ export default {
 ### Available Log Types for Frontend
 
 Use these values for the `logType` parameter:
-
 - `system` - General system logs
 - `kernel` - Kernel logs
 - `auth` - Authentication logs (loginwindow, sudo)
@@ -748,7 +728,7 @@ Valid `time_period` values:
 
 ---
 
-## 🔧 Development
+## Development
 
 ### Running in Development Mode
 
@@ -794,7 +774,7 @@ curl -w "\nTime: %{time_total}s\n" -s -o /dev/null "http://127.0.0.1:5000/api/he
 
 ---
 
-## 📦 Dependencies
+## Dependencies
 
 See `requirements.txt` for complete list:
 
@@ -804,34 +784,20 @@ See `requirements.txt` for complete list:
 - **pytest** - Testing framework (optional)
 - **gunicorn** - Production WSGI server (optional)
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run tests (when implemented)
 pytest tests/
 ```
 
-## 📄 License
+## License
 
 [Your License Here]
 
-## 🤝 Contributing
+## Contributing
 
 This is a team project. Backend and frontend are developed separately.
 
-- **Backend:** Python/Flask (this repository)
-- **Frontend:** Web interface (separate repository)
-
-## 📞 Support
-
-For issues or questions:
-1. Check system requirements (macOS 10.12+)
-2. Verify virtual environment is activated
-3. Check server logs for errors
-4. Test with `curl` to isolate frontend vs backend issues
-5. Check the `/api/health` endpoint first
-
----
-
-**Built for macOS 10.12+ using the Unified Logging System** 🍎
-
+- **Backend:** Python/Flask 
+- **Frontend:** Web interface  
