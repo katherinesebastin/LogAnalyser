@@ -4,12 +4,11 @@ A Python backend for analyzing macOS system logs using the Unified Logging Syste
 
 ## Project Overview
 
-This is the backend component of a macOS Log Analyzer. It provides a Flask-based REST API that queries macOS Unified Logging System and returns structured log data in JSON format. The frontend (web interface) is handled by a separate team member.
+This is the backend component of a macOS Log Analyzer. It provides a Flask-based REST API that queries macOS Unified Logging System and returns structured log data in JSON format.  
 
 ### Architecture
 
 - **Backend**: Python/Flask - REST API
-- **Frontend**: Web interface - User interface
 
 ## System Requirements
 
@@ -141,15 +140,6 @@ LogAnalyzer/
 └── README.md
 ```
 
-## API Documentation
-
-All endpoints return JSON and support CORS for frontend integration.
-
-### Base URL
-```
-http://127.0.0.1:5000
-```
-
 ### Common Query Parameters
 
 Most log endpoints support:
@@ -159,7 +149,6 @@ Most log endpoints support:
 ### Response Format
 
 All endpoints return JSON with this structure:
-
 **Success Response:**
 ```json
 {
@@ -251,8 +240,6 @@ GET /api/logs/kernel
 curl "http://127.0.0.1:5000/api/logs/kernel?limit=5"
 ```
 
----
-
 ### 4. Authentication Logs
 
 ```http
@@ -269,8 +256,6 @@ GET /api/logs/auth
 ```bash
 curl "http://127.0.0.1:5000/api/logs/auth?time_period=24h&limit=10"
 ```
-
----
 
 ### 5. Hardware Logs
 
@@ -452,281 +437,15 @@ All log entries from Unified Logging System endpoints follow this structure:
 - `log_type`: Type of log (system, kernel, auth, etc.)
 - `raw`: Complete raw log line
 
----
-
 ## Frontend Integration Guide
 
 ### CORS Support
 
-The backend has CORS enabled, so your frontend can make requests from any origin.
+The backend has CORS enabled, so frontend can make requests from any origin.
 
 ### Connecting to the Backend
 
 The backend runs on `http://127.0.0.1:5000` by default.
-
-### Basic JavaScript Example
-
-```javascript
-// Fetch system logs
-async function fetchLogs(logType = 'system', timePeriod = '1h', limit = 50) {
-  try {
-    const response = await fetch(
-      `http://127.0.0.1:5000/api/logs/${logType}?time_period=${timePeriod}&limit=${limit}`
-    );
-    const data = await response.json();
-    
-    if (data.status === 'success') {
-      console.log(`Retrieved ${data.count} ${data.log_type} logs`);
-      return data.logs;
-    } else {
-      console.error('Error:', data.message);
-      return [];
-    }
-  } catch (error) {
-    console.error('Network error:', error);
-    return [];
-  }
-}
-
-// Usage
-fetchLogs('system', '1h', 10).then(logs => {
-  // Display logs in your UI
-  logs.forEach(log => {
-    console.log(`${log.timestamp}: ${log.message}`);
-  });
-});
-```
-
-### React Example
-
-```jsx
-import React, { useState, useEffect } from 'react';
-
-function LogViewer({ logType = 'system' }) {
-  const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchLogs();
-  }, [logType]);
-
-  const fetchLogs = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/api/logs/${logType}?time_period=1h&limit=50`
-      );
-      const data = await response.json();
-      
-      if (data.status === 'success') {
-        setLogs(data.logs);
-        setError(null);
-      } else {
-        setError(data.message);
-      }
-    } catch (err) {
-      setError('Failed to fetch logs');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div>
-      <h2>{logType} Logs ({logs.length})</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>Process</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.map((log, index) => (
-            <tr key={index}>
-              <td>{log.timestamp}</td>
-              <td>{log.process}</td>
-              <td>{log.message}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default LogViewer;
-```
-
-### Vue.js Example
-
-```vue
-<template>
-  <div>
-    <h2>{{ logType }} Logs ({{ logs.length }})</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">Error: {{ error }}</div>
-    <table v-else>
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>Process</th>
-          <th>Message</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(log, index) in logs" :key="index">
-          <td>{{ log.timestamp }}</td>
-          <td>{{ log.process }}</td>
-          <td>{{ log.message }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
-<script>
-export default {
-  props: {
-    logType: {
-      type: String,
-      default: 'system'
-    }
-  },
-  data() {
-    return {
-      logs: [],
-      loading: true,
-      error: null
-    };
-  },
-  mounted() {
-    this.fetchLogs();
-  },
-  methods: {
-    async fetchLogs() {
-      this.loading = true;
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:5000/api/logs/${this.logType}?time_period=1h&limit=50`
-        );
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-          this.logs = data.logs;
-          this.error = null;
-        } else {
-          this.error = data.message;
-        }
-      } catch (err) {
-        this.error = 'Failed to fetch logs';
-      } finally {
-        this.loading = false;
-      }
-    }
-  }
-};
-</script>
-```
-
-### Available Log Types for Frontend
-
-Use these values for the `logType` parameter:
-- `system` - General system logs
-- `kernel` - Kernel logs
-- `auth` - Authentication logs (loginwindow, sudo)
-- `hardware` - Hardware-related logs
-- `power` - Power management logs
-- `scheduler` - Launchd/scheduler logs
-- `boot` - Boot logs
-- `crashes` - Crash logs (different response format)
-- `packages` - Homebrew/package logs (different response format)
-
-### Error Handling Best Practices
-
-```javascript
-async function fetchLogsWithErrorHandling(logType, timePeriod, limit) {
-  try {
-    const response = await fetch(
-      `http://127.0.0.1:5000/api/logs/${logType}?time_period=${timePeriod}&limit=${limit}`
-    );
-    
-    // Check HTTP status
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    // Check API status
-    if (data.status === 'success') {
-      return {
-        success: true,
-        logs: data.logs,
-        count: data.count,
-        logType: data.log_type
-      };
-    } else {
-      return {
-        success: false,
-        error: data.message || 'Unknown error',
-        logs: []
-      };
-    }
-  } catch (error) {
-    // Handle network errors, JSON parsing errors, etc.
-    return {
-      success: false,
-      error: error.message || 'Network error',
-      logs: []
-    };
-  }
-}
-```
-
-### Real-time Updates (Polling)
-
-```javascript
-// Poll for new logs every 30 seconds
-function startLogPolling(logType, callback) {
-  const interval = setInterval(async () => {
-    const result = await fetchLogsWithErrorHandling(logType, '1h', 50);
-    if (result.success) {
-      callback(result.logs);
-    }
-  }, 30000); // 30 seconds
-  
-  // Return function to stop polling
-  return () => clearInterval(interval);
-}
-
-// Usage
-const stopPolling = startLogPolling('system', (logs) => {
-  console.log(`Received ${logs.length} logs`);
-  // Update UI with new logs
-});
-
-// Stop polling when needed
-// stopPolling();
-```
-
-### Time Period Options
-
-Valid `time_period` values:
-- `5m`, `15m`, `30m` - Minutes
-- `1h`, `2h`, `6h`, `12h`, `24h` - Hours
-- `1d`, `7d`, `30d` - Days
-
-**Note:** Some endpoints have limitations:
-- Boot logs: Limited to 1h to avoid timeouts
-- Hardware logs: May use shorter periods for long time ranges
-
----
 
 ## Development
 
@@ -772,8 +491,6 @@ curl -w "\nTime: %{time_total}s\n" -s -o /dev/null "http://127.0.0.1:5000/api/he
 **Issue: "Log command timed out"**
 - **Solution:** Some queries (especially boot logs) can be slow. Try shorter time periods or smaller limits.
 
----
-
 ## Dependencies
 
 See `requirements.txt` for complete list:
@@ -793,11 +510,4 @@ pytest tests/
 
 ## License
 
-[Your License Here]
-
-## Contributing
-
-This is a team project. Backend and frontend are developed separately.
-
-- **Backend:** Python/Flask 
-- **Frontend:** Web interface  
+[Your License Here] 
