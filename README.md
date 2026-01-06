@@ -1,6 +1,6 @@
 # LogAnalyser
 
-The Codebase is in the Code branch  
+The Codebase is in the **Code** branch  
 
 LogAnalyser (LogLite) is a log analysis tool designed for learning and small-scale monitoring. It focuses on analyzing system, network and server logs in a simple and accessible way.
 
