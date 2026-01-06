@@ -148,7 +148,7 @@ Most log endpoints support:
 
 ### Response Format
 
-All endpoints return JSON with this structure:
+All endpoints return JSON with this structure:  
 **Success Response:**
 ```json
 {
@@ -412,21 +412,6 @@ curl "http://127.0.0.1:5000/api/logs/packages?limit=20"
 
 ### Standard Log Entry (Unified Logging System)
 
-All log entries from Unified Logging System endpoints follow this structure:
-
-```json
-{
-  "timestamp": "2025-11-01 16:45:29.904939+0200",
-  "hostname": "localhost",
-  "process": "kernel",
-  "pid": "0",
-  "level": "Unknown",
-  "message": "The actual log message",
-  "log_type": "system",
-  "raw": "Full raw log line as returned by log command"
-}
-```
-
 **Field Descriptions:**
 - `timestamp`: ISO-style timestamp with timezone
 - `hostname`: System hostname (usually "localhost")
@@ -510,4 +495,4 @@ pytest tests/
 
 ## License
 
-[Your License Here] 
+[License] 
