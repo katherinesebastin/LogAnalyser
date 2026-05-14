@@ -1,37 +1,31 @@
 # Backend
-
 A Python backend for analyzing macOS system logs using the Unified Logging System. This tool provides a RESTful API to query various log types from macOS 10.12+ (Sierra and later).
 
 ## Project Overview
-
 This is the backend component of a macOS Log Analyzer. It provides a Flask-based REST API that queries macOS Unified Logging System and returns structured log data in JSON format.  
 
-### Architecture
-
-- **Backend**: Python/Flask - REST API
+## Architecture
+**Backend**: Python/Flask - REST API
 
 ## System Requirements
+macOS 10.12+ (Sierra or later) is required.  
+This tool only supports macOS 10.12+. It will not work on older macOS versions.
 
-**macOS 10.12+ (Sierra or later) is required**
-This tool only supports **macOS 10.12+**. It **will not work** on older macOS versions.
-
-### Why macOS 10.12+ is required
-
+**Why macOS 10.12+ is required?**
 macOS 10.12 (Sierra) introduced the Unified Logging System, which replaced legacy text-based log files:
-- **Unified Logging System** (macOS 10.12+):
+- **Unified Logging System (macOS 10.12+)**:
   - Stores logs in a binary format for efficiency
   - Provides structured querying via predicates
   - Uses the `log` command-line tool
   - Offers better performance and filtering
   - This tool uses this system
-- **Legacy Logging** (macOS 10.11 and earlier):
+- **Legacy Logging (macOS 10.11 and earlier)** :
   - Text-based log files in `/var/log/*`
   - No structured querying
   - Different format entirely
   - This tool does not support this 
 
 ### Additional Requirements
-
 - **Python 3.8+** (3.10+ recommended)
 - **Administrative access** may be required for some log types
 - **Internet connection** for installing dependencies (first time only)
@@ -39,14 +33,12 @@ macOS 10.12 (Sierra) introduced the Unified Logging System, which replaced legac
 ## Quick Start
 
 ### 1. Clone the Repository
-
 ```bash
 git clone <your-repo-url>
 cd LogAnalyzer
 ```
 
 ### 2. Create and Activate Virtual Environment
-
 ```bash
 # Create virtual environment
 python3 -m venv venv
@@ -64,13 +56,11 @@ source venv/bin/activate
 - Prevents conflicts with other Python projects
 
 ### 3. Install Dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Verify System Compatibility
-
 ```bash
 python backend/utils/system_check.py
 ```
@@ -82,7 +72,6 @@ Unified Logging System found at: /usr/bin/log
 ```
 
 ### 5. Start the Backend Server
-
 ```bash
 python run.py
 ```
@@ -101,9 +90,7 @@ API available at: http://127.0.0.1:5000
 ```
 
 ### 6. Test the API
-
 In another terminal:
-
 ```bash
 # Health check
 curl http://127.0.0.1:5000/api/health
@@ -141,7 +128,6 @@ LogAnalyzer/
 ```
 
 ### Common Query Parameters
-
 Most log endpoints support:
 - `time_period` (optional): Time range (e.g., `1h`, `24h`, `7d`) - default varies by endpoint
 - `limit` (optional): Maximum number of entries - default varies by endpoint
@@ -181,7 +167,6 @@ All endpoints return JSON with this structure:
 ## API Endpoints
 
 ### 1. Health Check
-
 ```http
 GET /api/health
 ```
@@ -205,7 +190,6 @@ curl http://127.0.0.1:5000/api/health
 ```
 
 ### 2. System Logs
-
 ```http
 GET /api/logs/system
 ```
@@ -221,10 +205,7 @@ GET /api/logs/system
 curl "http://127.0.0.1:5000/api/logs/system?time_period=1h&limit=10"
 ```
 
----
-
 ### 3. Kernel Logs
-
 ```http
 GET /api/logs/kernel
 ```
@@ -241,12 +222,11 @@ curl "http://127.0.0.1:5000/api/logs/kernel?limit=5"
 ```
 
 ### 4. Authentication Logs
-
 ```http
 GET /api/logs/auth
 ```
 
-**Description:** Get authentication logs (loginwindow and sudo activities).
+**Description:** Get authentication logs (login window and sudo activities).
 
 **Query Parameters:**
 - `time_period` (optional): Default `1h`
@@ -258,7 +238,6 @@ curl "http://127.0.0.1:5000/api/logs/auth?time_period=24h&limit=10"
 ```
 
 ### 5. Hardware Logs
-
 ```http
 GET /api/logs/hardware
 ```
@@ -277,7 +256,6 @@ curl "http://127.0.0.1:5000/api/logs/hardware?limit=5"
 ```
 
 ### 6. Power Management Logs
-
 ```http
 GET /api/logs/power
 ```
@@ -294,7 +272,6 @@ curl "http://127.0.0.1:5000/api/logs/power?time_period=24h&limit=10"
 ```
 
 ### 7. Scheduler Logs
-
 ```http
 GET /api/logs/scheduler
 ```
@@ -311,7 +288,6 @@ curl "http://127.0.0.1:5000/api/logs/scheduler?time_period=24h&limit=10"
 ```
 
 ### 8. Boot Logs
-
 ```http
 GET /api/logs/boot
 ```
@@ -330,7 +306,6 @@ curl "http://127.0.0.1:5000/api/logs/boot?time_period=1h&limit=10"
 ```
 
 ### 9. Crash Logs
-
 ```http
 GET /api/logs/crashes
 ```
@@ -371,7 +346,6 @@ curl "http://127.0.0.1:5000/api/logs/crashes?limit=10"
 ```
 
 ### 10. Package Logs
-
 ```http
 GET /api/logs/packages
 ```
@@ -411,7 +385,6 @@ curl "http://127.0.0.1:5000/api/logs/packages?limit=20"
 ## Log Entry Format
 
 ### Standard Log Entry (Unified Logging System)
-
 **Field Descriptions:**
 - `timestamp`: ISO-style timestamp with timezone
 - `hostname`: System hostname (usually "localhost")
@@ -425,19 +398,15 @@ curl "http://127.0.0.1:5000/api/logs/packages?limit=20"
 ## Frontend Integration Guide
 
 ### CORS Support
-
 The backend has CORS enabled, so frontend can make requests from any origin.
 
 ### Connecting to the Backend
-
 The backend runs on `http://127.0.0.1:5000` by default.
 
 ## Development
 
 ### Running in Development Mode
-
 The server runs in debug mode by default:
-
 ```bash
 python run.py
 ```
@@ -448,9 +417,7 @@ This enables:
 - Debug console
 
 ### Testing Endpoints
-
 Use `curl` or any HTTP client:
-
 ```bash
 # Pretty JSON output
 curl -s "http://127.0.0.1:5000/api/logs/system?limit=3" | python3 -m json.tool
@@ -460,7 +427,6 @@ curl -w "\nTime: %{time_total}s\n" -s -o /dev/null "http://127.0.0.1:5000/api/he
 ```
 
 ### Common Issues
-
 **Issue: "Connection refused"**
 - **Solution:** Make sure the server is running (`python run.py`)
 
@@ -479,7 +445,6 @@ curl -w "\nTime: %{time_total}s\n" -s -o /dev/null "http://127.0.0.1:5000/api/he
 ## Dependencies
 
 See `requirements.txt` for complete list:
-
 - **flask** - Web framework
 - **flask-cors** - CORS support for frontend
 - **python-dateutil** - Date/time utilities
@@ -492,7 +457,3 @@ See `requirements.txt` for complete list:
 # Run tests (when implemented)
 pytest tests/
 ```
-
-## License
-
-[License] 
