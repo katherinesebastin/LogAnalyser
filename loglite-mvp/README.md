@@ -1,20 +1,106 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Frontend
+A React frontend for viewing and analyzing macOS system logs.    
+It connects to a Python Flask backend to fetch log data and display it in a simple interface.  
+## What This Project Does
+Users can:  
+- View different types of macOS logs
+- Analyze logs in a table-based UI
+- Access system log data through API calls
 
-# Run and deploy your AI Studio app
+## Technologies Used
+- Node.js
+- React
+- Vite
+- TypeScript
+- Gemini API
 
-This contains everything you need to run your app locally.
+## Prerequisites
+- Node.js installed
+- npm installed
+- Backend server running
 
-View your app in AI Studio: https://ai.studio/apps/drive/1KnPyIIIYRZB-WbyBS1JTa0fx6oFJmM4G
+## Project Structure
+```bash
+frontend/
+├── components/                # Reusable UI components
+│   ├── Layout.tsx
+│   ├── LogTable.tsx
+│   └── Modal.tsx
+│
+├── pages/                     # Application pages/screens
+│   ├── Dashboard.tsx
+│   ├── GenericLogPage.tsx
+│   ├── Projectinfo.tsx
+│   └── SecurityInsights.tsx
+│
+├── services/
+│   ├── api.ts                 # Handles backend API requests
+│   └── mockService.ts         # Mock/sample data service
+│
+├── node_modules/
+├── .env.local                 # Stores local environment variables
+├── .gitignore
+├── App.tsx                    # Main application component
+├── constants.ts
+├── index.html
+├── index.tsx                  # Application entry point
+├── metadata.json
+├── package-lock.json
+├── package.json
+├── README.md
+├── tsconfig.json
+├── types.ts                   # Shared TypeScript types
+└── vite.config.ts             # Vite configuration
+```
 
-## Run Locally
+## How to Run the Frontend
 
-**Prerequisites:**  Node.js
+### 1. Clone the Repository
+```bash
+git clone https://github.com/katherinesebastin/LogAnalyser.git
+cd frontend
+```
 
+### 2. Install Dependencies
+Run:
+```bash
+npm install
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 3. Configure Environment Variables
+Create a file named:
+```bash
+.env.local
+```
+Add your Gemini API key:
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+Replace `your_api_key_here` with your actual Gemini API key.
+
+### 4. Start the Frontend Server
+Run:
+```bash
+npm run dev
+```
+You should see output similar to: **`Local: http://localhost:3000/`**  
+Open the link in your browser.
+
+## Important
+- The backend must be running at **`http://127.0.0.1:5000`**  
+- If the backend is not running, the frontend will not be able to retrieve logs.  
+
+## Common Issues
+
+**Issue: "npm command not found"**  
+- **Solution:** Install Node.js and restart the terminal. 
+
+**Issue: "No logs appear"**  
+- **Solution:**  
+   Check:
+   - Backend is running
+   - Backend URL is correct
+   - API endpoints are accessible
+
+**Issue: "Invalid Gemini API key"**  
+- **Solution:** Check `.env.local` file and verify the API key.
