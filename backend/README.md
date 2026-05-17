@@ -34,7 +34,7 @@ macOS 10.12 (Sierra) introduced the Unified Logging System, which replaced legac
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/katherinesebastin/LogAnalyser.git
 cd LogAnalyzer
 ```
 
@@ -76,7 +76,7 @@ Unified Logging System found at: /usr/bin/log
 python run.py
 ```
 
-The API will be available at `http://127.0.0.1:5000`
+The API will be available at **`http://127.0.0.1:5000`**
 
 You should see:
 ```
@@ -100,7 +100,6 @@ curl "http://127.0.0.1:5000/api/logs/system?limit=5"
 ```
 
 ## Project Structure
-
 ```
 LogAnalyzer/
 ├── backend/
@@ -116,11 +115,11 @@ LogAnalyzer/
 │   │   ├── __init__.py
 │   │   └── app.py
 │   └── utils/            # Helper utilities
-│       ├── __init__.py
-│       └── system_check.py
+│   │   ├── __init__.py
+│   │   └── system_check.py
+│   ├── __init__.py
 ├── tests/                # Unit and integration tests
 │   └── __init__.py
-├── venv/                 # Virtual environment (gitignored)
 ├── .gitignore
 ├── requirements.txt
 ├── run.py                # Main entry point
@@ -133,7 +132,6 @@ Most log endpoints support:
 - `limit` (optional): Maximum number of entries - default varies by endpoint
 
 ### Response Format
-
 All endpoints return JSON with this structure:  
 **Success Response:**
 ```json
@@ -443,17 +441,9 @@ curl -w "\nTime: %{time_total}s\n" -s -o /dev/null "http://127.0.0.1:5000/api/he
 - **Solution:** Some queries (especially boot logs) can be slow. Try shorter time periods or smaller limits.
 
 ## Dependencies
-
 See `requirements.txt` for complete list:
 - **flask** - Web framework
 - **flask-cors** - CORS support for frontend
 - **python-dateutil** - Date/time utilities
 - **pytest** - Testing framework (optional)
 - **gunicorn** - Production WSGI server (optional)
-
-## Testing
-
-```bash
-# Run tests (when implemented)
-pytest tests/
-```
